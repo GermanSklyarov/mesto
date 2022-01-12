@@ -1,0 +1,15 @@
+.photos__photo-caption {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 282px;
+  min-height: 80px;
+  background-color: #fff;
+  border-radius: 0 0 10px 10px;
+}
+
+@media screen and (max-width: 767px) {
+  .photos__photo-caption {
+    max-width: 100%;
+  }
+}
