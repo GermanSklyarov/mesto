@@ -1,4 +1,5 @@
 .photos__element {
+  position: relative;
   border-radius: 10px;
 }
 
