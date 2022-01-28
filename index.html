@@ -22,7 +22,7 @@
       </div>
       <button class="profile__add-button" type="button" aria-label="добавить"></button>
     </section>
-    <div class="popup">
+    <div class="popup" id="edit">
       <div class="popup__container">
         <h2 class="popup__title">Редактировать профиль</h2>
         <form class="popup__form" name="edit-form">
@@ -33,56 +33,44 @@
         <button class="popup__close" type="button" aria-label="закрыть"></button>
       </div>
     </div>
+    <div class="popup" id="add">
+      <div class="popup__container">
+        <h2 class="popup__title">Новое место</h2>
+        <form class="popup__form" name="edit-form">
+          <input type="text" name="place" id="place" class="popup__field" placeholder="Название">
+          <input type="url" name="url" id="url" class="popup__field" placeholder="Ссылка на картинку">
+          <input type="submit" class="popup__submit" value="Создать">
+        </form>
+        <button class="popup__close" type="button" aria-label="закрыть"></button>
+      </div>
+    </div>
+    <div class="popup popup_type_photo">
+      <div class="popup__photo-container">
+        <figure class="popup__figure">
+          <img class="popup__photo" src="https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg"
+            alt="">
+          <figcaption class="popup__photo-caption"></figcaption>
+        </figure>
+        <button class="popup__close" type="button" aria-label="закрыть"></button>
+      </div>
+    </div>
     <section class="elements">
-      <ul class="photos">
-        <li class="photos__element">
-          <img class="photos__photo" src="./images/karachaevsk.jpg" alt="Карачаевск">
-          <div class="photos__photo-caption">
-            <h2 class="photos__photo-title">Карачаевск</h2>
-            <button class="photos__like-button" type="button" aria-label="лайк"></button>
-          </div>
-        </li>
-        <li class="photos__element">
-          <img class="photos__photo" src="./images/elbrus.png" alt="Гора Эльбрус">
-          <div class="photos__photo-caption">
-            <h2 class="photos__photo-title">Гора Эльбрус</h2>
-            <button class="photos__like-button" type="button" aria-label="лайк"></button>
-          </div>
-        </li>
-        <li class="photos__element">
-          <img class="photos__photo" src="./images/dombai.png" alt="Домбай">
-          <div class="photos__photo-caption">
-            <h2 class="photos__photo-title">Домбай</h2>
-            <button class="photos__like-button" type="button" aria-label="лайк"></button>
-          </div>
-        </li>
-        <li class="photos__element">
-          <img class="photos__photo" src="./images/elbrus.png" alt="Гора Эльбрус">
-          <div class="photos__photo-caption">
-            <h2 class="photos__photo-title">Гора Эльбрус</h2>
-            <button class="photos__like-button" type="button" aria-label="лайк"></button>
-          </div>
-        </li>
-        <li class="photos__element">
-          <img class="photos__photo" src="./images/dombai.png" alt="Домбай">
-          <div class="photos__photo-caption">
-            <h2 class="photos__photo-title">Домбай</h2>
-            <button class="photos__like-button" type="button" aria-label="лайк"></button>
-          </div>
-        </li>
-        <li class="photos__element">
-          <img class="photos__photo" src="./images/karachaevsk.jpg" alt="Карачаевск">
-          <div class="photos__photo-caption">
-            <h2 class="photos__photo-title">Карачаево-Черкесия</h2>
-            <button class="photos__like-button" type="button" aria-label="лайк"></button>
-          </div>
-        </li>
-      </ul>
+      <ul class="photos"></ul>
     </section>
   </main>
   <footer class="footer">
     <p class="footer__copyright">&copy; 2020 Mesto Russia</p>
   </footer>
+  <template id="card-template">
+    <li class="photos__element">
+      <img class="photos__photo" src="./images/heart.svg" alt="фото">
+      <button class="photos__delete-button" type="button" aria-label="удалить"></button>
+      <div class="photos__photo-caption">
+        <h2 class="photos__photo-title"></h2>
+        <button class="photos__like-button" type="button" aria-label="лайк"></button>
+      </div>
+    </li>
+  </template>
   <script src="./scripts/index.js"></script>
 </body>
 
