@@ -44,29 +44,34 @@ const initialCards = [
 ];
 
 function cloneItem(item) {
-  let newItem = template.cloneNode(true);
-  let photo = newItem.querySelector('.photos__photo');
+  const newItem = template.cloneNode(true);
+  const photo = newItem.querySelector('.photos__photo');
+  const likeButton = newItem.querySelector('.photos__like-button');
+  const deleteButton = newItem.querySelector('.photos__delete-button');
   photo.src = item.link;
   photo.alt = item.name;
   newItem.querySelector('.photos__photo-title').textContent = item.name;
+  likeButton.addEventListener('click', handleLikeButton);
+  deleteButton.addEventListener('click', handleDeleteButton);
+  photo.addEventListener('click', openPopupPhoto);
   return newItem;
 }
 
 function renderItem(item) {
-  let newItem = cloneItem(item);
+  const newItem = cloneItem(item);
   photos.appendChild(newItem);
 }
 
-function likeButtonHandler(evt) {
+function handleLikeButton(evt) {
   evt.target.classList.toggle('photos__like-button_active');
 }
 
-function deleteButtonHandler(evt) {
+function handleDeleteButton(evt) {
   evt.target.closest('li').remove();
 }
 
-function popupPhotoOpen(evt) {
-  popupOpen(popupPhoto);
+function openPopupPhoto(evt) {
+  openPopup(popupPhoto);
   bigPhoto.src = evt.target.src;
   bigPhoto.alt = evt.target.alt;
   bigPhotoCaption.textContent = evt.target.alt;
@@ -74,66 +79,54 @@ function popupPhotoOpen(evt) {
 
 for (let i = 0; i <= 5; i++) {
   renderItem(initialCards[i]);
-  let likeButton = photos.querySelectorAll('.photos__like-button')[i];
-  let deleteButton = photos.querySelectorAll('.photos__delete-button')[i];
-  let photo = photos.querySelectorAll('.photos__photo')[i];
-  likeButton.addEventListener('click', likeButtonHandler);
-  deleteButton.addEventListener('click', deleteButtonHandler);
-  photo.addEventListener('click', popupPhotoOpen);
 }
 
-function popupClose(popup) {
+function closePopup(popup) {
   popup.classList.remove('popup_opened');
 }
 
-function popupOpen(popup) {
+function openPopup(popup) {
   popup.classList.add('popup_opened');
 }
 
-function closeButtonHandler(evt) {
-  let popup = evt.target.closest('.popup');
-  popupClose(popup);
+function handleCloseButton(evt) {
+  const popup = evt.target.closest('.popup');
+  closePopup(popup);
 }
 
-function formEditSubmitHandler(evt) {
+function handleFormEditSubmit(evt) {
   evt.preventDefault();
   profileName.textContent = nameInput.value;
   job.textContent = jobInput.value;
-  popupClose(popupEdit);
+  closePopup(popupEdit);
 }
 
-function formAddSubmitHandler(evt) {
+function handleFormAddSubmit(evt) {
   evt.preventDefault();
-  let item = {};
+  const item = {};
   if (!placeInput.value || !urlInput.value) {
-    popupClose(popupAdd);
+    closePopup(popupAdd);
     return;
   }
   item.name = placeInput.value;
   item.link = urlInput.value;
-  let newItem = cloneItem(item);
+  const newItem = cloneItem(item);
   photos.prepend(newItem);
-  let likeButton = photos.querySelector('.photos__like-button');
-  let deleteButton = photos.querySelector('.photos__delete-button');
-  let photo = photos.querySelector('.photos__photo');
-  likeButton.addEventListener('click', likeButtonHandler);
-  deleteButton.addEventListener('click', deleteButtonHandler);
-  photo.addEventListener('click', popupPhotoOpen);
-  popupClose(popupAdd);
+  closePopup(popupAdd);
   placeInput.value = "";
   urlInput.value = "";
 }
 
 editButton.addEventListener('click', function () {
-  popupOpen(popupEdit);
+  openPopup(popupEdit);
   nameInput.value = profileName.textContent;
   jobInput.value = job.textContent;
 });
 addButton.addEventListener('click', function () {
-  popupOpen(popupAdd);
+  openPopup(popupAdd);
 });
 closeButtons.forEach(function (closeButton) {
-  closeButton.addEventListener('click', closeButtonHandler);
+  closeButton.addEventListener('click', handleCloseButton);
 });
-formEdit.addEventListener('submit', formEditSubmitHandler);
-formAdd.addEventListener('submit', formAddSubmitHandler);
+formEdit.addEventListener('submit', handleFormEditSubmit);
+formAdd.addEventListener('submit', handleFormAddSubmit);
