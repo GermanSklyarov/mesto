@@ -44,7 +44,7 @@ const initialCards = [
   }
 ];
 
-function cloneItem(item) {
+function createCard(item) {
   const newItem = template.cloneNode(true);
   const photo = newItem.querySelector('.photos__photo');
   const likeButton = newItem.querySelector('.photos__like-button');
@@ -56,11 +56,6 @@ function cloneItem(item) {
   deleteButton.addEventListener('click', handleDeleteButton);
   photo.addEventListener('click', openPopupPhoto);
   return newItem;
-}
-
-function renderItem(item) {
-  const newItem = cloneItem(item);
-  photos.appendChild(newItem);
 }
 
 function handleLikeButton(evt) {
@@ -78,9 +73,10 @@ function openPopupPhoto(evt) {
   bigPhotoCaption.textContent = evt.target.alt;
 }
 
-for (let i = 0; i <= 5; i++) {
-  renderItem(initialCards[i]);
-}
+initialCards.forEach((card) => {
+  const newItem = createCard(card);
+  photos.appendChild(newItem);
+});
 
 function closePopup(popup) {
   popup.classList.remove('popup_opened');
@@ -88,8 +84,9 @@ function closePopup(popup) {
 }
 
 function handleEscape(evt) {
+  const openedPopup = document.querySelector('.popup_opened');
   if (evt.key === 'Escape') {
-    popups.forEach(closePopup);
+    closePopup(openedPopup);
   }
 }
 
@@ -113,16 +110,16 @@ function handleFormEditSubmit(evt) {
 function handleFormAddSubmit(evt) {
   evt.preventDefault();
   const item = {};
-  if (!placeInput.value || !urlInput.value) {
-    return false;
-  }
+  const buttonElement = formAdd.querySelector('.popup__submit');
   item.name = placeInput.value;
   item.link = urlInput.value;
-  const newItem = cloneItem(item);
+  const newItem = createCard(item);
   photos.prepend(newItem);
   closePopup(popupAdd);
   placeInput.value = "";
   urlInput.value = "";
+  buttonElement.classList.add('popup__submit_disabled');
+  buttonElement.setAttribute('disabled', true);
 }
 
 editButton.addEventListener('click', function () {
