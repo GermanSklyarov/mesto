@@ -25,9 +25,13 @@
     <div class="popup" id="edit">
       <div class="popup__container">
         <h2 class="popup__title">Редактировать профиль</h2>
-        <form class="popup__form" name="edit-form">
-          <input type="text" name="name" id="name" class="popup__field" value="Жак-Ив Кусто">
-          <input type="text" name="job" id="job" class="popup__field" value="Исследователь океана">
+        <form class="popup__form" name="edit-form" novalidate>
+          <input type="text" name="name" id="name" class="popup__field" value="Жак-Ив Кусто" minlength="2"
+            maxlength="40" required>
+          <span class="name-error popup__form-input-error"></span>
+          <input type="text" name="job" id="job" class="popup__field" value="Исследователь океана" minlength="2"
+            maxlength="200" required>
+          <span class="job-error popup__form-input-error"></span>
           <input type="submit" class="popup__submit" value="Сохранить">
         </form>
         <button class="popup__close" type="button" aria-label="закрыть"></button>
@@ -36,9 +40,12 @@
     <div class="popup" id="add">
       <div class="popup__container">
         <h2 class="popup__title">Новое место</h2>
-        <form class="popup__form" name="edit-form">
-          <input type="text" name="place" id="place" class="popup__field" placeholder="Название">
-          <input type="url" name="url" id="url" class="popup__field" placeholder="Ссылка на картинку">
+        <form class="popup__form" name="add-form" novalidate>
+          <input type="text" name="place" id="place" class="popup__field" placeholder="Название" minlength="2"
+            maxlength="30" required>
+          <span class="place-error popup__form-input-error"></span>
+          <input type="url" name="url" id="url" class="popup__field" placeholder="Ссылка на картинку" required>
+          <span class="url-error popup__form-input-error"></span>
           <input type="submit" class="popup__submit" value="Создать">
         </form>
         <button class="popup__close" type="button" aria-label="закрыть"></button>
@@ -72,6 +79,7 @@
     </li>
   </template>
   <script src="./scripts/index.js"></script>
+  <script src="./scripts/validate.js"></script>
 </body>
 
 </html>
