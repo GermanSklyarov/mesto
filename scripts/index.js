@@ -16,7 +16,8 @@ const urlInput = formAdd.querySelector('#url');
 const profileName = document.querySelector('.profile__name');
 const job = document.querySelector('.profile__description');
 const photos = document.querySelector('.photos');
-const template = document.querySelector('#card-template').content;
+const forms = Array.from(document.querySelectorAll('.popup__form'));
+const errors = Array.from(formEdit.querySelectorAll('.popup__form-input-error'));
 const initialCards = [
   {
     name: 'Архыз',
@@ -44,38 +45,27 @@ const initialCards = [
   }
 ];
 
-function createCard(item) {
-  const newItem = template.cloneNode(true);
-  const photo = newItem.querySelector('.photos__photo');
-  const likeButton = newItem.querySelector('.photos__like-button');
-  const deleteButton = newItem.querySelector('.photos__delete-button');
-  photo.src = item.link;
-  photo.alt = item.name;
-  newItem.querySelector('.photos__photo-title').textContent = item.name;
-  likeButton.addEventListener('click', handleLikeButton);
-  deleteButton.addEventListener('click', handleDeleteButton);
-  photo.addEventListener('click', openPopupPhoto);
-  return newItem;
-}
+const settings = {
+  formSelector: 'popup__form',
+  inputSelector: 'popup__field',
+  submitButtonSelector: 'popup__submit',
+  inactiveButtonClass: 'popup__submit_disabled',
+  inputErrorClass: 'popup__field_type_error',
+  errorClass: 'popup__form-input-error_active'
+};
 
-function handleLikeButton(evt) {
-  evt.target.classList.toggle('photos__like-button_active');
-}
+import { Card } from './card.js';
+import { formValidator } from './formValidator.js';
 
-function handleDeleteButton(evt) {
-  evt.target.closest('li').remove();
-}
-
-function openPopupPhoto(evt) {
-  openPopup(popupPhoto);
-  bigPhoto.src = evt.target.src;
-  bigPhoto.alt = evt.target.alt;
-  bigPhotoCaption.textContent = evt.target.alt;
-}
+forms.forEach((form) => {
+  const formValidate = new formValidator(settings, form);
+  formValidate.enableValidation();
+});
 
 initialCards.forEach((card) => {
-  const newItem = createCard(card);
-  photos.appendChild(newItem);
+  const newItem = new Card(card, '#card-template');
+  const newCard = newItem.createCard();
+  photos.appendChild(newCard);
 });
 
 function closePopup(popup) {
@@ -113,8 +103,9 @@ function handleFormAddSubmit(evt) {
   const buttonElement = formAdd.querySelector('.popup__submit');
   item.name = placeInput.value;
   item.link = urlInput.value;
-  const newItem = createCard(item);
-  photos.prepend(newItem);
+  const newItem = new Card(item, '#card-template');
+  const newCard = newItem.createCard();
+  photos.prepend(newCard);
   closePopup(popupAdd);
   placeInput.value = "";
   urlInput.value = "";
@@ -122,10 +113,26 @@ function handleFormAddSubmit(evt) {
   buttonElement.setAttribute('disabled', true);
 }
 
+export { openPopup, popupPhoto, bigPhoto, bigPhotoCaption };
+
 editButton.addEventListener('click', function () {
   openPopup(popupEdit);
   nameInput.value = profileName.textContent;
   jobInput.value = job.textContent;
+  errors.forEach((error) => {
+    if (error.classList.contains('popup__form-input-error_active')) {
+      error.classList.remove('popup__form-input-error_active');
+    }
+  })
+  if (nameInput.classList.contains('popup__field_type_error')) {
+    nameInput.classList.remove('popup__field_type_error')
+  }
+  if (jobInput.classList.contains('popup__field_type_error')) {
+    jobInput.classList.remove('popup__field_type_error');
+  }
+  const buttonElement = formEdit.querySelector('.popup__submit');
+  buttonElement.classList.remove('popup__submit_disabled');
+  buttonElement.removeAttribute('disabled');
 });
 
 addButton.addEventListener('click', function () {
@@ -139,8 +146,8 @@ closeButtons.forEach(function (closeButton) {
 formEdit.addEventListener('submit', handleFormEditSubmit);
 formAdd.addEventListener('submit', handleFormAddSubmit);
 
-popups.forEach(function(popup) {
-  popup.addEventListener('click', function(evt) {
+popups.forEach(function (popup) {
+  popup.addEventListener('click', function (evt) {
     if (evt.currentTarget === evt.target) {
       closePopup(evt.target);
     }
