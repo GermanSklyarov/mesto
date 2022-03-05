@@ -74,6 +74,13 @@ function openPopup(popup) {
   document.addEventListener('keydown', handleEscape);
 }
 
+function openImagePopup(card) {
+  bigPhoto.src = card.src;
+  bigPhoto.alt = card.alt;
+  bigPhotoCaption.textContent = card.alt;
+  openPopup(popupPhoto);
+}
+
 function handleCloseButton(evt) {
   const popup = evt.target.closest('.popup');
   closePopup(popup);
@@ -86,13 +93,18 @@ function handleFormEditSubmit(evt) {
   closePopup(popupEdit);
 }
 
+function createNewCard(card, templateSelector, openImagePopup) {
+  const newItem = new Card(card, templateSelector, openImagePopup);
+  const newCard = newItem.createCard();
+  return newCard;
+}
+
 function handleFormAddSubmit(evt) {
   evt.preventDefault();
   const item = {};
   item.name = placeInput.value;
   item.link = urlInput.value;
-  const newItem = new Card(item, '#card-template');
-  const newCard = newItem.createCard();
+  const newCard = createNewCard(item, '#card-template', openImagePopup);
   photos.prepend(newCard);
   closePopup(popupAdd);
   placeInput.value = "";
@@ -104,8 +116,7 @@ formEditValidator.enableValidation();
 formAddValidator.enableValidation();
 
 initialCards.forEach((card) => {
-  const newItem = new Card(card, '#card-template');
-  const newCard = newItem.createCard();
+  const newCard = createNewCard(card, '#card-template', openImagePopup);
   photos.appendChild(newCard);
 });
 
