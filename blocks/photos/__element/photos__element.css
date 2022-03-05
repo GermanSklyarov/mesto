@@ -2,9 +2,3 @@
   position: relative;
   border-radius: 10px;
 }
-
-@media screen and (max-width: 767px) {
-  .photos__element {
-    width: 100%;
-  }
-}

@@ -11,10 +11,3 @@
 .photos__photo:hover {
   opacity: 0.6;
 }
-
-@media screen and (max-width: 767px) {
-  .photos__photo {
-    width: 100%;
-    height: auto;
-  }
-}

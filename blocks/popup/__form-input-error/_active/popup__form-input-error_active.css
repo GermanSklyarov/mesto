@@ -1,3 +1,5 @@
 .popup__form-input-error_active {
-  display: inline;
+  font-size: 12px;
+  line-height: 15px;
+  color: #ff0000;
 }

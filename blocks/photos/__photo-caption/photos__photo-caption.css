@@ -7,9 +7,3 @@
   background-color: #fff;
   border-radius: 0 0 10px 10px;
 }
-
-@media screen and (max-width: 767px) {
-  .photos__photo-caption {
-    max-width: 100%;
-  }
-}
