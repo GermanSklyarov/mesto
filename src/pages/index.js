@@ -24,8 +24,7 @@ const popupPhoto = new PopupWithImage('.popup_type_photo');
 const cardsList = new Section({
   items: initialCards,
   renderer: (item) => {
-    const newItem = new Card(item, '#card-template', openImagePopup);
-    const newCard = newItem.createCard();
+    const newCard = createNewCard(item, '#card-template', openImagePopup);
     cardsList.addItem(newCard);
   },
 }, '.photos');
@@ -40,7 +39,7 @@ function openImagePopup(evt) {
 
 function handleFormEditSubmit(evt) {
   evt.preventDefault();
-  const inputValues = popupEdit._getInputValues();
+  const inputValues = popupEdit.getInputValues();
   profileInfo.setUserInfo(inputValues);
   popupEdit.close();
 }
@@ -53,7 +52,7 @@ function createNewCard(card, templateSelector, openImagePopup) {
 
 function handleFormAddSubmit(evt) {
   evt.preventDefault();
-  const item = popupAdd._getInputValues();
+  const item = popupAdd.getInputValues();
   const newCard = createNewCard(item, '#card-template', openImagePopup);
   photos.prepend(newCard);
   popupAdd.close();
@@ -74,6 +73,7 @@ editButton.addEventListener('click', function () {
 });
 
 addButton.addEventListener('click', function () {
+  formAddValidator.removeErrorMessages();
   popupAdd.open();
 });
 
