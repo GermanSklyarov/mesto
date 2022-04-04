@@ -6,15 +6,15 @@ export default class UserInfo {
   }
   getUserInfo() {
     const userData = {};
-    userData.userName = this._userNameElement.textContent;
-    userData.userInfo = this._userInfoElement.textContent;
+    userData.name = this._userNameElement.textContent;
+    userData.about = this._userInfoElement.textContent;
     return userData;
   }
-  setUserInfo({ name, about }) {
+  setUserInfo({ name, about, avatar, _id }) {
     this._userNameElement.textContent = name;
     this._userInfoElement.textContent = about;
-  }
-  setAvatar(avatar) {
     this._userAvatarElement.src = avatar;
+    this._userId = _id;
+
   }
 }
